@@ -82,11 +82,10 @@ public class DisplayImageDetailsActivity extends AppCompatActivity {
 
 
                 // Update progress bar
-                publishProgress(25);
-                publishProgress(50);
-                publishProgress(75);
-
-                // wait for data
+                for (int i = 0; i < 100; i++) {
+                    publishProgress(i);
+                }
+                          // wait for data
                 InputStream response = urlConnection.getInputStream();
 
                 //JSON reading

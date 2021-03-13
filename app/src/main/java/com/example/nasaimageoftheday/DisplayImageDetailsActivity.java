@@ -22,9 +22,13 @@ public class DisplayImageDetailsActivity extends AppCompatActivity {
 
     TextView imageUrlTextView;
     TextView imageDescriptionTextView;
+    TextView imageDateTextView;
+
 
     private String url;
     private String imageDescription;
+    private String imageUrl;
+    private String imageDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +39,12 @@ public class DisplayImageDetailsActivity extends AppCompatActivity {
 
         // Get the imageUrl TextView
         imageUrlTextView = findViewById(R.id.image_url);
-        imageUrlTextView.setText(url);
 
         // Get the imageDescription TextView
         imageDescriptionTextView = findViewById(R.id.image_description);
+
+        // Get the imageDate TextView
+        imageDateTextView = findViewById(R.id.image_date);
 
         MyHTTPRequest req = new MyHTTPRequest();
         req.execute(url);
@@ -76,10 +82,15 @@ public class DisplayImageDetailsActivity extends AppCompatActivity {
                 // get the description of the image
                 imageDescription = imageDetailsJSON.getString("explanation");
 
+                // get the image url
+                imageUrl = imageDetailsJSON.getString("hdurl");
+
+                //get the image date
+                imageDate = imageDetailsJSON.getString("date");
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
 
             return "Done";
         }
@@ -88,7 +99,9 @@ public class DisplayImageDetailsActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            //set the imageDescriptionTextView text to show the image description
+            //set the TextView fields to show image details
+            imageDateTextView.setText(imageDate);
+            imageUrlTextView.setText(imageUrl);
             imageDescriptionTextView.setText(imageDescription);
 
         }

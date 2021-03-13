@@ -9,8 +9,8 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/choose_nasa_picture"/>
+        android:layout_height="66dp"
+        android:text="@string/main_description" />
 
   <com.google.android.material.button.MaterialButton
       android:id="@+id/pick_date"
@@ -18,5 +18,12 @@
       android:layout_height="wrap_content"
       android:text="@string/pick_date"
       />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/get_NASA_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/get_image"
+        />
 
 </LinearLayout>

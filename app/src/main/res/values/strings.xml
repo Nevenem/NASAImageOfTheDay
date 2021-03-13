@@ -3,5 +3,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="pick_date">Pick a date</string>
-    <string name="choose_nasa_picture">Get NASA image of the day</string>
+    <string name="get_image">get NASA image</string>
+    <string name="main_description">Pick a date and get an image of the day from NASA</string>
 </resources>

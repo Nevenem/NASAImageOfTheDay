@@ -2,6 +2,7 @@ package com.example.nasaimageoftheday;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +18,16 @@ import java.util.ArrayList;
 public class ImageListActivity extends AppCompatActivity {
 
     private ArrayList<NASAImage> images = new ArrayList<>();
+    SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_list);
+
+        // Connect to the database
+        MySQLiteHelper mySQLiteHelper = new MySQLiteHelper(this);
+        database = mySQLiteHelper.getWritableDatabase();
 
         // Get the ListView
         ListView imageListView = findViewById(R.id.image_list);

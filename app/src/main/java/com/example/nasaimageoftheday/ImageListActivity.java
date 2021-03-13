@@ -2,6 +2,7 @@ package com.example.nasaimageoftheday;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,15 +35,39 @@ public class ImageListActivity extends AppCompatActivity {
         MyViewListAdapter adapter = new MyViewListAdapter();
         imageListView.setAdapter(adapter);
 
-        // Put some fake data in the ArrayList
-        for (int i = 0; i < 20; i++) {
-            images.add(new NASAImage("2020-3-4", "description" + i, "url"));
-        }
+        loadDataFromDatabase();
 
-        //update the adapter
+        // Update the adapter
         adapter.notifyDataSetChanged();
     }
 
+    private void loadDataFromDatabase() {
+
+        // Get the columns
+        String[] columns = {MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_DATE, MySQLiteHelper.COLUMN_DESCRIPTION, MySQLiteHelper.COLUMN_URL};
+
+        // Get all rows from the database
+        try
+            (Cursor results = database.query(false, MySQLiteHelper.TABLE_NAME, columns, null, null, null, null, null, null)) {
+
+            // Get column indices
+            int idColIndex = results.getColumnIndex(MySQLiteHelper.COLUMN_ID);
+            int dateColIndex = results.getColumnIndex(MySQLiteHelper.COLUMN_DATE);
+            int descriptionColIndex = results.getColumnIndex(MySQLiteHelper.COLUMN_DESCRIPTION);
+            int urlColIndex = results.getColumnIndex(MySQLiteHelper.COLUMN_URL);
+
+            // Fetch the data from the database
+            while (results.moveToNext()) {
+                long id = results.getLong(idColIndex);
+                String date = results.getString(dateColIndex);
+                String description = results.getString(descriptionColIndex);
+                String url = results.getString(urlColIndex);
+
+                // Put each image in the ArrayList images
+                images.add(new NASAImage(id, date, description, url));
+            }
+            }
+    }
 
 
     private class MyViewListAdapter extends BaseAdapter {
@@ -75,7 +100,7 @@ public class ImageListActivity extends AppCompatActivity {
 
             // Put the information for each image into the layout fields
             TextView description = newView.findViewById(R.id.image_description);
-            description.setText(image.getDescription());
+            description.setText(image.getUrl());
 
             return newView;
         }

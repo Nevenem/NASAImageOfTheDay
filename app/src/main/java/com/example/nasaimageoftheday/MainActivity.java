@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,14 +15,13 @@ import com.google.android.material.button.MaterialButton;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
 
     MaterialButton btnDatePicker;
     MaterialButton btnGetNASAImage;
 
     private int mYear, mMonth, mDay;
     private String imageUrl;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +48,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mDay = c.get(Calendar.DAY_OF_MONTH);
 
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                    (view, year, monthOfYear, dayOfMonth) -> {
-                    }, mYear, mMonth, mDay);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    month++;
+                    imageUrl = "https://api.nasa.gov/planetary/apod?api_key=DgPLcIlnmN0Cwrzcg3e9NraFaYLIDI68Ysc6Zh3d&date=" + year + "-" + month + "-" + dayOfMonth;
+                    Log.i("MONTH", String.valueOf(month));
+                }
+            }, mYear, mMonth, mDay);
 
+            datePickerDialog.show();
             imageUrl = "https://api.nasa.gov/planetary/apod?api_key=DgPLcIlnmN0Cwrzcg3e9NraFaYLIDI68Ysc6Zh3d&date=" + mYear + "-" + mMonth + "-" + mDay;
             Log.i("Date", imageUrl);
-            datePickerDialog.show();
 
         } else if (v == btnGetNASAImage) {
 
@@ -64,4 +69,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
     }
+
 }

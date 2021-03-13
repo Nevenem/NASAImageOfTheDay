@@ -3,52 +3,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context=".DisplayImageDetailsActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/url"/>
+        android:text="@string/url" />
+
     <TextView
         android:id="@+id/url"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="The url should be placed here"
         android:autoLink="web"
-        />
+        android:text="The url should be placed here" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/date"/>
+        android:text="@string/date" />
+
     <TextView
         android:id="@+id/image_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="The url should be placed here"
-        />
+        android:text="The url should be placed here" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/image_url"/>
+        android:text="@string/image_url" />
+
     <TextView
         android:id="@+id/image_url"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="The url should be placed here"
         android:autoLink="web"
-        />
+        android:text="The url should be placed here" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/description" />
+
     <TextView
         android:id="@+id/image_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="The url should be placed here"
-        />
+        android:text="The url should be placed here" />
 
-
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="67dp"
+        android:max="100" />
 </LinearLayout>

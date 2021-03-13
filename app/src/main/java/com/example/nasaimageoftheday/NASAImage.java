@@ -1,14 +1,12 @@
 package com.example.nasaimageoftheday;
 
 public class NASAImage {
-    String date;
-    String description;
-    String url;
+    public Long getId() {
+        return id;
+    }
 
-    public NASAImage(String date, String description, String url) {
-        this.date = date;
-        this.description = description;
-        this.url = url;
+    public void setId(Long id) {
+        this.id = id;
     }
     public String getDate() {
         return date;
@@ -33,4 +31,16 @@ public class NASAImage {
     public void setUrl(String url) {
         this.url = url;
     }
+    Long id;
+    String date;
+    String description;
+    String url;
+
+    public NASAImage(long id, String date, String description, String url) {
+        this.id = id;
+        this.date = date;
+        this.description = description;
+        this.url = url;
+    }
+
 }

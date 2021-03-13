@@ -2,9 +2,13 @@ package com.example.nasaimageoftheday;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
@@ -30,11 +34,20 @@ public class DisplayImageDetailsActivity extends AppCompatActivity {
     private String imageDescription;
     private String imageUrl;
     private String imageDate;
+    private SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_image_details);
+
+        // set the visibility of the progress bar
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.VISIBLE);
+
+        // Connect to the database
+        MySQLiteHelper mySQLiteHelper = new MySQLiteHelper(this);
+        database = mySQLiteHelper.getWritableDatabase();
 
         url = getIntent().getStringExtra("IMAGE_URL");
 
@@ -67,6 +80,12 @@ public class DisplayImageDetailsActivity extends AppCompatActivity {
                 // open the connection
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
+
+                // Update progress bar
+                publishProgress(25);
+                publishProgress(50);
+                publishProgress(75);
+
                 // wait for data
                 InputStream response = urlConnection.getInputStream();
 
@@ -89,8 +108,10 @@ public class DisplayImageDetailsActivity extends AppCompatActivity {
                 // get the image url
                 imageUrl = imageDetailsJSON.getString("hdurl");
 
-                //get the image date
+                // get the image date
                 imageDate = imageDetailsJSON.getString("date");
+
+                publishProgress(100);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -100,15 +121,45 @@ public class DisplayImageDetailsActivity extends AppCompatActivity {
         }
 
         @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+
+               ProgressBar progressBar = findViewById(R.id.progress_bar);
+                progressBar.setVisibility(ProgressBar.VISIBLE);
+                progressBar.setProgress(values[0]);
+            }
+
+
+        @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
             //set the TextView fields to show image details
             urlTextView.setText(url);
             imageDateTextView.setText(imageDate);
-            imageUrlTextView.setText(imageUrl);
             imageDescriptionTextView.setText(imageDescription);
+            imageUrlTextView.setText(imageUrl);
+
+            // put the data into database
+            putImageDetailsIntoDatabase();
+
+            ProgressBar progressBar = findViewById(R.id.progress_bar);
+            progressBar.setVisibility(ProgressBar.INVISIBLE);
 
         }
+    }
+
+    private void putImageDetailsIntoDatabase() {
+        ContentValues newImageValue = new ContentValues();
+
+        // define values for each column in the database
+        newImageValue.put(MySQLiteHelper.COLUMN_DATE, imageDate);
+        newImageValue.put(MySQLiteHelper.COLUMN_DESCRIPTION, imageDescription);
+        newImageValue.put(MySQLiteHelper.COLUMN_URL, imageUrl);
+
+        Log.i("URL to insert: ", imageUrl);
+        //insert into database
+        long newId = database.insert(MySQLiteHelper.TABLE_NAME, null, newImageValue);
+
     }
 }

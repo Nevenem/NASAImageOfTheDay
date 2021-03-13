@@ -8,11 +8,30 @@
     tools:context=".DisplayImageDetailsActivity">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/url"/>
+    <TextView
+        android:id="@+id/url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The url should be placed here"
+        android:autoLink="web"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date"/>
+    <TextView
         android:id="@+id/image_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="The url should be placed here"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/image_url"/>
     <TextView
         android:id="@+id/image_url"
         android:layout_width="wrap_content"
@@ -20,6 +39,10 @@
         android:text="The url should be placed here"
         android:autoLink="web"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/description" />
     <TextView
         android:id="@+id/image_description"
         android:layout_width="wrap_content"

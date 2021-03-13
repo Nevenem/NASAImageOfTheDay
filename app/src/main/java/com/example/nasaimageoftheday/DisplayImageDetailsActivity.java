@@ -20,6 +20,7 @@ import java.net.URL;
 
 public class DisplayImageDetailsActivity extends AppCompatActivity {
 
+    TextView urlTextView;
     TextView imageUrlTextView;
     TextView imageDescriptionTextView;
     TextView imageDateTextView;
@@ -35,7 +36,10 @@ public class DisplayImageDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_image_details);
 
-        String url = getIntent().getStringExtra("IMAGE_URL");
+        url = getIntent().getStringExtra("IMAGE_URL");
+
+        // Get the imageDate TextView
+        urlTextView = findViewById(R.id.url);
 
         // Get the imageUrl TextView
         imageUrlTextView = findViewById(R.id.image_url);
@@ -100,6 +104,7 @@ public class DisplayImageDetailsActivity extends AppCompatActivity {
             super.onPostExecute(s);
 
             //set the TextView fields to show image details
+            urlTextView.setText(url);
             imageDateTextView.setText(imageDate);
             imageUrlTextView.setText(imageUrl);
             imageDescriptionTextView.setText(imageDescription);

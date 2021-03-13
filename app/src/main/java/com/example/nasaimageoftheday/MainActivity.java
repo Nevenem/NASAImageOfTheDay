@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.DatePicker;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
 
@@ -64,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (v == btnGetNASAImage) {
 
             // Open DisplayImageDetailsActivity
-            Intent intent = new Intent(getBaseContext(), DisplayImageDetailsActivity.class);
+            Intent intent = new Intent(getBaseContext(), ImageFromNASAActivity.class);
             intent.putExtra("IMAGE_URL", imageUrl);
             startActivity(intent);
         }

@@ -3,6 +3,7 @@ package com.example.nasaimageoftheday;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
 
@@ -22,13 +24,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class DisplayImageDetailsActivity extends AppCompatActivity {
+public class ImageFromNASAActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView urlTextView;
     TextView imageUrlTextView;
     TextView imageDescriptionTextView;
     TextView imageDateTextView;
-
+    MaterialButton addToFavoritesButton;
+    MaterialButton goToImageListButton;
 
     private String url;
     private String imageDescription;
@@ -63,8 +66,34 @@ public class DisplayImageDetailsActivity extends AppCompatActivity {
         // Get the imageDate TextView
         imageDateTextView = findViewById(R.id.image_date);
 
+        // Get the addToFavoritesButton
+        addToFavoritesButton = findViewById(R.id.add_to_favorites);
+        addToFavoritesButton.setOnClickListener(this);
+
+        // Get the goToImageListButton
+        goToImageListButton = findViewById(R.id.go_to_list);
+        goToImageListButton.setOnClickListener(this);
+
         MyHTTPRequest req = new MyHTTPRequest();
         req.execute(url);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.add_to_favorites) {
+
+            // put the data into database
+            putImageDetailsIntoDatabase();
+
+            Snackbar.make(v, "Image saved!", Snackbar.LENGTH_LONG)
+                    .show();
+        } else if (v.getId() == R.id.go_to_list) {
+
+            Intent intent = new Intent(getBaseContext(), ImageListActivity.class);
+            startActivity(intent);
+
+        }
+
     }
 
     private class MyHTTPRequest extends AsyncTask<String,Integer,String> {
@@ -138,9 +167,6 @@ public class DisplayImageDetailsActivity extends AppCompatActivity {
             imageDateTextView.setText(imageDate);
             imageDescriptionTextView.setText(imageDescription);
             imageUrlTextView.setText(imageUrl);
-
-            // put the data into database
-            putImageDetailsIntoDatabase();
 
             ProgressBar progressBar = findViewById(R.id.progress_bar);
             progressBar.setVisibility(ProgressBar.INVISIBLE);

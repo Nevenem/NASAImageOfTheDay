@@ -12,4 +12,6 @@
     <string name="enter_password">Enter password:</string>
     <string name="enter_name">Enter name:</string>
     <string name="login_button">login</string>
+    <string name="add_to_favorites">add to favorites</string>
+    <string name="show_favorites">show favorites</string>
 </resources>

@@ -4,16 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class ImageListActivity extends AppCompatActivity {
@@ -44,7 +49,7 @@ public class ImageListActivity extends AppCompatActivity {
     private void loadDataFromDatabase() {
 
         // Get the columns
-        String[] columns = {MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_DATE, MySQLiteHelper.COLUMN_DESCRIPTION, MySQLiteHelper.COLUMN_URL};
+        String[] columns = {MySQLiteHelper.COLUMN_ID, MySQLiteHelper.COLUMN_IMAGE_NAME, MySQLiteHelper.COLUMN_DATE, MySQLiteHelper.COLUMN_DESCRIPTION, MySQLiteHelper.COLUMN_URL};
 
         // Get all rows from the database
         try
@@ -52,6 +57,7 @@ public class ImageListActivity extends AppCompatActivity {
 
             // Get column indices
             int idColIndex = results.getColumnIndex(MySQLiteHelper.COLUMN_ID);
+            int imageNameColIndex = results.getColumnIndex(MySQLiteHelper.COLUMN_IMAGE_NAME);
             int dateColIndex = results.getColumnIndex(MySQLiteHelper.COLUMN_DATE);
             int descriptionColIndex = results.getColumnIndex(MySQLiteHelper.COLUMN_DESCRIPTION);
             int urlColIndex = results.getColumnIndex(MySQLiteHelper.COLUMN_URL);
@@ -59,12 +65,18 @@ public class ImageListActivity extends AppCompatActivity {
             // Fetch the data from the database
             while (results.moveToNext()) {
                 long id = results.getLong(idColIndex);
+                String imageFileName = results.getString(imageNameColIndex);
                 String date = results.getString(dateColIndex);
                 String description = results.getString(descriptionColIndex);
                 String url = results.getString(urlColIndex);
 
+                Log.i("LOADING DATA", "successful");
+
                 // Put each image in the ArrayList images
-                images.add(new NASAImage(id, date, description, url));
+                NASAImage newNASAImage = new NASAImage(id, date, description, url);
+                newNASAImage.setImageName(imageFileName);
+                images.add(newNASAImage);
+
             }
             }
     }
@@ -90,17 +102,30 @@ public class ImageListActivity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            // Get the layout for one image item
+            // Get the layout for one imageObj item
             View newView;
             LayoutInflater layoutInflater = getLayoutInflater();
 
-            // Inflate the image item layout
-            NASAImage image = (NASAImage) getItem(position);
+            // Inflate the imageObj item layout
+            NASAImage imageObj = (NASAImage) getItem(position);
             newView = layoutInflater.inflate(R.layout.image_item, parent, false);
 
-            // Put the information for each image into the layout fields
+            // Put the information for each imageObj into the layout fields
+            ImageView image = newView.findViewById(R.id.image);
+            FileInputStream fis = null;
+            try {
+                fis = openFileInput(imageObj.getImageName());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            Bitmap imageBitmap = BitmapFactory.decodeStream(fis);
+
+            image.setImageBitmap(imageBitmap);
+
+            TextView date = newView.findViewById(R.id.image_date);
+            date.setText(imageObj.getDate());
             TextView description = newView.findViewById(R.id.image_description);
-            description.setText(image.getUrl());
+            description.setText(imageObj.getDescription());
 
             return newView;
         }

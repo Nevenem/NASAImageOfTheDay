@@ -3,12 +3,17 @@ package com.example.nasaimageoftheday;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -18,16 +23,19 @@ import com.google.android.material.snackbar.Snackbar;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class ImageFromNASAActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView urlTextView;
     TextView imageUrlTextView;
+    ImageView imageView;
     TextView imageDescriptionTextView;
     TextView imageDateTextView;
     MaterialButton addToFavoritesButton;
@@ -35,9 +43,13 @@ public class ImageFromNASAActivity extends AppCompatActivity implements View.OnC
 
     private String url;
     private String imageDescription;
-    private String imageUrl;
+    private String imageUrlString;
+    private URL imageUrl;
+    private String imageFileName;
+    private Bitmap bmp;
     private String imageDate;
     private SQLiteDatabase database;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +70,10 @@ public class ImageFromNASAActivity extends AppCompatActivity implements View.OnC
         urlTextView = findViewById(R.id.url);
 
         // Get the imageUrl TextView
-        imageUrlTextView = findViewById(R.id.image_url);
+//        imageUrlTextView = findViewById(R.id.image_url);
 
+        //Get the imageView
+        imageView = findViewById(R.id.image);
         // Get the imageDescription TextView
         imageDescriptionTextView = findViewById(R.id.image_description);
 
@@ -83,6 +97,7 @@ public class ImageFromNASAActivity extends AppCompatActivity implements View.OnC
         if (v.getId() == R.id.add_to_favorites) {
 
             // put the data into database
+            downloadImage();
             putImageDetailsIntoDatabase();
 
             Snackbar.make(v, "Image saved!", Snackbar.LENGTH_LONG)
@@ -96,6 +111,35 @@ public class ImageFromNASAActivity extends AppCompatActivity implements View.OnC
 
     }
 
+    private void downloadImage() {
+
+        imageFileName = imageUrlString.substring(imageUrlString.lastIndexOf('/') + 1);
+        try {
+            FileOutputStream out = openFileOutput(imageFileName, Context.MODE_PRIVATE);
+            bmp.compress(Bitmap.CompressFormat.PNG, 80, out);
+            out.flush();
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void putImageDetailsIntoDatabase() {
+        ContentValues newImageValue = new ContentValues();
+
+        // define values for each column in the database
+        newImageValue.put(MySQLiteHelper.COLUMN_IMAGE_NAME, imageFileName);
+        newImageValue.put(MySQLiteHelper.COLUMN_DATE, imageDate);
+        newImageValue.put(MySQLiteHelper.COLUMN_DESCRIPTION, imageDescription);
+        newImageValue.put(MySQLiteHelper.COLUMN_URL, imageUrlString);
+
+        //insert into database
+        long newId = database.insert(MySQLiteHelper.TABLE_NAME, null, newImageValue);
+
+    }
     private class MyHTTPRequest extends AsyncTask<String,Integer,String> {
 
         @Override
@@ -134,7 +178,9 @@ public class ImageFromNASAActivity extends AppCompatActivity implements View.OnC
                 imageDescription = imageDetailsJSON.getString("explanation");
 
                 // get the image url
-                imageUrl = imageDetailsJSON.getString("hdurl");
+                imageUrlString = imageDetailsJSON.getString("url");
+                imageUrl = new URL(imageUrlString);
+                    bmp = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
 
                 // get the image date
                 imageDate = imageDetailsJSON.getString("date");
@@ -144,7 +190,6 @@ public class ImageFromNASAActivity extends AppCompatActivity implements View.OnC
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             return "Done";
         }
 
@@ -162,29 +207,28 @@ public class ImageFromNASAActivity extends AppCompatActivity implements View.OnC
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
-            //set the TextView fields to show image details
+            // Set the TextView fields to show image details
             urlTextView.setText(url);
             imageDateTextView.setText(imageDate);
-            imageDescriptionTextView.setText(imageDescription);
-            imageUrlTextView.setText(imageUrl);
 
+            // Set the ImageView
+            imageView.setImageBitmap(bmp);
             ProgressBar progressBar = findViewById(R.id.progress_bar);
             progressBar.setVisibility(ProgressBar.INVISIBLE);
+
+            // Set the listener to the image so it opens the image in the browser when clicked
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(imageUrlString));
+                    startActivity(intent);
+                }
+            });
 
         }
     }
 
-    private void putImageDetailsIntoDatabase() {
-        ContentValues newImageValue = new ContentValues();
 
-        // define values for each column in the database
-        newImageValue.put(MySQLiteHelper.COLUMN_DATE, imageDate);
-        newImageValue.put(MySQLiteHelper.COLUMN_DESCRIPTION, imageDescription);
-        newImageValue.put(MySQLiteHelper.COLUMN_URL, imageUrl);
-
-        Log.i("URL to insert: ", imageUrl);
-        //insert into database
-        long newId = database.insert(MySQLiteHelper.TABLE_NAME, null, newImageValue);
-
-    }
 }

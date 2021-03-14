@@ -1,5 +1,7 @@
 package com.example.nasaimageoftheday;
 
+import android.graphics.Bitmap;
+
 public class NASAImage {
     public Long getId() {
         return id;
@@ -8,6 +10,7 @@ public class NASAImage {
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getDate() {
         return date;
     }
@@ -31,10 +34,21 @@ public class NASAImage {
     public void setUrl(String url) {
         this.url = url;
     }
-    Long id;
-    String date;
-    String description;
-    String url;
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    private Long id;
+    private String imageName;
+    private String date;
+    private String description;
+    private String url;
+
 
     public NASAImage(long id, String date, String description, String url) {
         this.id = id;
@@ -42,5 +56,4 @@ public class NASAImage {
         this.description = description;
         this.url = url;
     }
-
 }

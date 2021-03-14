@@ -10,9 +10,11 @@ import androidx.annotation.Nullable;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public static final String COLUMN_ID = "_id";
+    public static final String COLUMN_IMAGE_NAME = "NAME";
     public static final String COLUMN_DATE = "DATE";
     public static final String COLUMN_DESCRIPTION = "DESCRIPTION";
     public static final String COLUMN_URL = "URL";
+
 
     public static final String TABLE_NAME = "IMAGE";
 
@@ -26,6 +28,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUMN_IMAGE_NAME + " text, "
                 + COLUMN_DATE + " text, "
                 + COLUMN_DESCRIPTION + " text, "
                 + COLUMN_URL + " text); ");

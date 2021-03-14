@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                     month++;
                     imageUrl = "https://api.nasa.gov/planetary/apod?api_key=DgPLcIlnmN0Cwrzcg3e9NraFaYLIDI68Ysc6Zh3d&date=" + year + "-" + month + "-" + dayOfMonth;
-                    Log.i("MONTH", String.valueOf(month));
                 }
             }, mYear, mMonth, mDay);
 

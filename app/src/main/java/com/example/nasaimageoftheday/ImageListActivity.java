@@ -1,7 +1,9 @@
 package com.example.nasaimageoftheday;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -25,7 +27,8 @@ public class ImageListActivity extends AppCompatActivity {
 
     private ArrayList<NASAImage> images = new ArrayList<>();
     SQLiteDatabase database;
-
+    MyViewListAdapter adapter;
+    NASAImage currentImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +40,7 @@ public class ImageListActivity extends AppCompatActivity {
 
         // Get the ListView
         ListView imageListView = findViewById(R.id.image_list);
-        MyViewListAdapter adapter = new MyViewListAdapter();
+        adapter = new MyViewListAdapter();
         imageListView.setAdapter(adapter);
 
         loadDataFromDatabase();
@@ -81,6 +84,29 @@ public class ImageListActivity extends AppCompatActivity {
             }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.i("onActivityResult", "Helloo");
+        if (requestCode == 1) {
+            
+            deleteImageFromArrayList(currentImage);
+            adapter.notifyDataSetChanged();
+
+            if (resultCode == RESULT_OK) {
+            }
+        }
+    }
+
+    private void deleteImageFromArrayList(NASAImage currentImage) {
+
+        for (NASAImage image: images) {
+            if (currentImage.equals(image)) {
+                images.remove(image);
+            }
+        }
+    }
 
     private class MyViewListAdapter extends BaseAdapter {
 
@@ -102,19 +128,19 @@ public class ImageListActivity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            // Get the layout for one imageObj item
+            // Get the layout for one currentImage item
             View newView;
             LayoutInflater layoutInflater = getLayoutInflater();
 
-            // Inflate the imageObj item layout
-            NASAImage imageObj = (NASAImage) getItem(position);
+            // Inflate the currentImage item layout
+            currentImage = (NASAImage) getItem(position);
             newView = layoutInflater.inflate(R.layout.image_item, parent, false);
 
-            // Put the information for each imageObj into the layout fields
+            // Put the information for each currentImage into the layout fields
             ImageView image = newView.findViewById(R.id.image);
             FileInputStream fis = null;
             try {
-                fis = openFileInput(imageObj.getImageName());
+                fis = openFileInput(currentImage.getImageName());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -123,11 +149,30 @@ public class ImageListActivity extends AppCompatActivity {
             image.setImageBitmap(imageBitmap);
 
             TextView date = newView.findViewById(R.id.image_date);
-            date.setText(imageObj.getDate());
+            date.setText(currentImage.getDate());
             TextView description = newView.findViewById(R.id.image_description);
-            description.setText(imageObj.getDescription());
+            description.setText(currentImage.getDescription());
 
+
+            // Set the ClickListener on each image row
+            newView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    // Send details about the clicked image to ImageFromDatabaseActivity
+                    Intent intent = new Intent(ImageListActivity.this, ImageFromDatabaseActivity.class);
+                    intent.putExtra("IMAGE_ID", currentImage.getId());
+                    intent.putExtra("IMAGE_NAME", currentImage.getImageName());
+                    intent.putExtra("IMAGE_URL", currentImage.getUrl());
+                    intent.putExtra("IMAGE_DATE", currentImage.getDate());
+                    intent.putExtra("IMAGE_DESCRIPTION", currentImage.getDescription());
+
+                    startActivityForResult(intent, 1);
+                }
+            });
             return newView;
         }
     }
+
 }

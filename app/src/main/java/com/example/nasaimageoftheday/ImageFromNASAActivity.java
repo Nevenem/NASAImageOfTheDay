@@ -11,7 +11,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -41,6 +40,7 @@ public class ImageFromNASAActivity extends AppCompatActivity implements View.OnC
     MaterialButton addToFavoritesButton;
     MaterialButton goToImageListButton;
 
+    private long newId;
     private String url;
     private String imageDescription;
     private String imageUrlString;
@@ -54,7 +54,7 @@ public class ImageFromNASAActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_image_details);
+        setContentView(R.layout.activity_image_from_nasa);
 
         // set the visibility of the progress bar
         ProgressBar progressBar = findViewById(R.id.progress_bar);
@@ -66,11 +66,8 @@ public class ImageFromNASAActivity extends AppCompatActivity implements View.OnC
 
         url = getIntent().getStringExtra("IMAGE_URL");
 
-        // Get the imageDate TextView
-        urlTextView = findViewById(R.id.url);
-
         // Get the imageUrl TextView
-//        imageUrlTextView = findViewById(R.id.image_url);
+        urlTextView = findViewById(R.id.url);
 
         //Get the imageView
         imageView = findViewById(R.id.image);
@@ -137,7 +134,7 @@ public class ImageFromNASAActivity extends AppCompatActivity implements View.OnC
         newImageValue.put(MySQLiteHelper.COLUMN_URL, imageUrlString);
 
         //insert into database
-        long newId = database.insert(MySQLiteHelper.TABLE_NAME, null, newImageValue);
+        newId = database.insert(MySQLiteHelper.TABLE_NAME, null, newImageValue);
 
     }
     private class MyHTTPRequest extends AsyncTask<String,Integer,String> {

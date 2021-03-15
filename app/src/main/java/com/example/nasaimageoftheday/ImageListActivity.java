@@ -79,23 +79,19 @@ public class ImageListActivity extends AppCompatActivity {
                 NASAImage newNASAImage = new NASAImage(id, date, description, url);
                 newNASAImage.setImageName(imageFileName);
                 images.add(newNASAImage);
-
             }
-            }
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.i("onActivityResult", "Helloo");
+        // Delete the image from the ListView
         if (requestCode == 1) {
-            
             deleteImageFromArrayList(currentImage);
             adapter.notifyDataSetChanged();
 
-            if (resultCode == RESULT_OK) {
-            }
         }
     }
 

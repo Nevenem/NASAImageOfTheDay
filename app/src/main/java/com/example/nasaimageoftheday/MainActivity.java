@@ -11,17 +11,22 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.media.Image;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Calendar;
+import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener  {
 
@@ -53,18 +58,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open, R.string.close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-
-        try {
-            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            String version = pInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // Get the header_layout
+        View header = navigationView.getHeaderView(0);
+
+        // Set the version textfield in the header
+        TextView version = header.findViewById(R.id.version);
+        version.setText(getActivityVersionNum());
+    }
+
+    private String getActivityVersionNum() {
+        String version = "";
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+             version = pInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return version;
     }
 
     @Override
@@ -102,19 +115,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         String toastMessage = "";
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.image_list:
-                toastMessage ="You clicked Image List!";
+                intent = new Intent(this, ImageListActivity.class);
+                startActivity(intent);
                 break;
             case R.id.login:
-                toastMessage = "You clicked Login";
+                intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
                 break;
         }
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(GravityCompat.START);
-
-        Toast.makeText(this, "NavigationDrawer: " + toastMessage, Toast.LENGTH_LONG).show();
         return false;
     }
 }

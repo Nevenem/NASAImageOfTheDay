@@ -15,4 +15,6 @@
     <string name="add_to_favorites">add to favorites</string>
     <string name="show_favorites">show favorites</string>
     <string name="remove_from_favorites">remove from favorites</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
 </resources>

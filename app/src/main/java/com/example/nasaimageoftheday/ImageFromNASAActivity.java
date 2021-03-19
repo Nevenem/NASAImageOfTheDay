@@ -1,6 +1,10 @@
 package com.example.nasaimageoftheday;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,12 +15,17 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
@@ -56,7 +65,7 @@ public class ImageFromNASAActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_from_nasa);
 
-        // set the visibility of the progress bar
+        // Set the visibility of the progress bar
         ProgressBar progressBar = findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -137,6 +146,7 @@ public class ImageFromNASAActivity extends AppCompatActivity implements View.OnC
         newId = database.insert(MySQLiteHelper.TABLE_NAME, null, newImageValue);
 
     }
+
     private class MyHTTPRequest extends AsyncTask<String,Integer,String> {
 
         @Override

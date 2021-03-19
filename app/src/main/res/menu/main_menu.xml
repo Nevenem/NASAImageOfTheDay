@@ -10,4 +10,8 @@
         android:title="@string/login"
         android:icon="@drawable/ic_baseline_login_24"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/help"
+        android:icon="@drawable/ic_baseline_help_24"
+        android:title="@string/help" />
 </menu>

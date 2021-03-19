@@ -7,7 +7,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -30,13 +32,15 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.Calendar;
 import java.util.zip.Inflater;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener  {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     MaterialButton btnDatePicker;
     MaterialButton btnGetNASAImage;
 
     private int mYear, mMonth, mDay;
     private String imageUrl;
+    private AlertDialog.Builder builder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnGetNASAImage.setOnClickListener(this);
 
         // Set the toolbar
-        Toolbar toolbar =  (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Set the NavigationDrawer
@@ -75,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String version = "";
         try {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-             version = pInfo.versionName;
+            version = pInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -93,6 +97,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.login:
                 intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.help:
+                builder = new AlertDialog.Builder(this);
+
+                builder.setMessage(R.string.dialog_message).setTitle(R.string.dialog_title)
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                finish();
+                                Toast.makeText(getApplicationContext(), "You clicked OK",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                //Creating dialog box
+                AlertDialog alert = builder.create();
+                //Setting the title manually
+                alert.setTitle("AlertDialogExample");
+                alert.show();
                 break;
         }
         return true;

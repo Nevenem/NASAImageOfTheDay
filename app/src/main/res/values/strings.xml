@@ -19,4 +19,7 @@
     <string name="close">close</string>
     <string name="go_to_favorites">Favorites</string>
     <string name="login">Login</string>
+    <string name="dialog_message">You can pick a date and get the image of the day from NASA.\nYou can save the image by clicking SAVE.\nYou can look at your saved images by going to FAVORITES.</string>
+    <string name="dialog_title">Instructions</string>
+    <string name="help">help</string>
 </resources>

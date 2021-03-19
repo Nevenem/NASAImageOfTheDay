@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -81,6 +83,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.image_list:
+                intent = new Intent(this, ImageListActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.login:
+                intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
     public void onClick(View v) {
         if (v == btnDatePicker) {
 
@@ -114,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        String toastMessage = "";
         Intent intent;
         switch (item.getItemId()) {
             case R.id.image_list:
@@ -129,6 +153,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(GravityCompat.START);
-        return false;
+        return true;
     }
 }

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 <item android:id="@+id/image_list"
-    android:title="@string/go_to_favorites" />
+    android:title="@string/go_to_favorites"
+    android:icon="@drawable/ic_baseline_favorite_24"/>
 
     <item android:id="@+id/login"
-        android:title="@string/login" />
+        android:title="@string/login"
+        android:icon="@drawable/ic_baseline_login_24"/>
 </menu>

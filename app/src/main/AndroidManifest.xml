@@ -10,7 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.NASAImageOfTheDay">
+        android:theme="@style/Theme.NASAImageOfTheDay"
+        >
         <activity android:name=".ImageFromDatabaseActivity"></activity>
         <activity android:name=".ImageListActivity">
 
@@ -25,7 +26,10 @@
         <activity android:name=".ImageFromNASAActivity">
 
         </activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar“
+
+        </activity>
     </application>
 
 </manifest>

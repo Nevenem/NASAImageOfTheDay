@@ -7,6 +7,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+// MySQLiteHelper class creates the database
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public static final String COLUMN_ID = "_id";

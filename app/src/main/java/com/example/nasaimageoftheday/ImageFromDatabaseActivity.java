@@ -84,10 +84,6 @@ public class ImageFromDatabaseActivity extends BaseActivity implements View.OnCl
         Bitmap imageBitmap = BitmapFactory.decodeStream(fis);
         imageView.setImageBitmap(imageBitmap);
 
-        // Get the imageDescription TextView
-//        imageDescriptionTextView = findViewById(R.id.image_description);
-//        imageDescriptionTextView.setText(imageDescription);
-
         // Get the addToFavoritesButton
         removeFromFavoritesButton = findViewById(R.id.remove_from_favorites);
         removeFromFavoritesButton.setOnClickListener(this);
@@ -118,9 +114,9 @@ public class ImageFromDatabaseActivity extends BaseActivity implements View.OnCl
             // delete the image
             deleteImage();
             deleteFile(imageFileName);
-
         }
 
+        // Return the result to the calling activity
         Intent returnIntent = new Intent(getBaseContext(), ImageListActivity.class);
         returnIntent.putExtra("DELETED_IMAGE", imageFileName);
         setResult(RESULT_OK, returnIntent);
@@ -130,16 +126,12 @@ public class ImageFromDatabaseActivity extends BaseActivity implements View.OnCl
 
     private void deleteImage() {
         if (deleteImageFromDatabase()) {
-
             Toast.makeText(this, "Delete successful.", Toast.LENGTH_LONG)
                     .show();
         }
-
     }
 
-
     private boolean deleteImageFromDatabase() {
-
        return  database.delete(MySQLiteHelper.TABLE_NAME, MySQLiteHelper.COLUMN_ID + "=" + imageId, null) > 0;
     }
 }

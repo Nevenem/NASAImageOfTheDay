@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+// BaseActivity is an empty activity with a toolbar that all other activities will extend
 public class BaseActivity extends AppCompatActivity {
 
     @Override
@@ -35,7 +36,6 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         AlertDialog.Builder builder;
-
         Intent intent;
         switch (item.getItemId()) {
             case R.id.image_list:

@@ -35,7 +35,7 @@ public class LoginActivity extends BaseActivity{
         // Get the Login button
         MaterialButton loginButton = findViewById(R.id.login_button);
 
-
+        // Set the listener
         loginButton.setOnClickListener(v -> {
             Intent intent = new Intent(getBaseContext(), MainActivity.class);
             startActivity(intent);

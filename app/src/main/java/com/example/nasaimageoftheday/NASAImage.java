@@ -2,6 +2,7 @@ package com.example.nasaimageoftheday;
 
 import android.graphics.Bitmap;
 
+// NASAImage class describes the image entity
 public class NASAImage {
     public Long getId() {
         return id;

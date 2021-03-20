@@ -4,56 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
     tools:context=".ImageFromNASAActivity">
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/url" />
-
-    <TextView
-        android:id="@+id/url"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autoLink="web"
-        android:text="The url should be placed here" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/date" />
-
-    <TextView
-        android:id="@+id/image_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="The url should be placed here" />
-
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="150dp"
-        android:layout_height="150dp" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/add_to_favorites"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add_to_favorites" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/go_to_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/show_favorites" />
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="67dp"
-        android:max="100" />
+        android:layout_height="wrap_content" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/url" />
+
+        <TextView
+            android:id="@+id/url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:text="The url should be placed here" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date" />
+
+        <TextView
+            android:id="@+id/image_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="The url should be placed here" />
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="150dp"
+            android:layout_height="150dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/add_to_favorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_to_favorites" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/go_to_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/show_favorites" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:max="100" />
+    </LinearLayout>
 </LinearLayout>

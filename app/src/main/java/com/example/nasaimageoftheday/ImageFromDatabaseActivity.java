@@ -1,6 +1,8 @@
 package com.example.nasaimageoftheday;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,6 +10,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -21,7 +25,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.File;
 
-public class ImageFromDatabaseActivity extends AppCompatActivity implements View.OnClickListener {
+public class ImageFromDatabaseActivity extends BaseActivity implements View.OnClickListener {
 
     TextView urlTextView;
     TextView imageUrlTextView;
@@ -43,6 +47,10 @@ public class ImageFromDatabaseActivity extends AppCompatActivity implements View
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_from_database);
+
+        // Set the toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Connect to the database
         MySQLiteHelper mySQLiteHelper = new MySQLiteHelper(this);
@@ -89,6 +97,19 @@ public class ImageFromDatabaseActivity extends AppCompatActivity implements View
         goToImageListButton.setOnClickListener(this);
 
          }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        menu.removeItem(R.id.login);
+        menu.removeItem(R.id.image_list);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onClick(View v) {

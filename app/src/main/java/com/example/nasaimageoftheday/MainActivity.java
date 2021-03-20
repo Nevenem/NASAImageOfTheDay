@@ -105,15 +105,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                finish();
                                 Toast.makeText(getApplicationContext(), "You clicked OK",
                                         Toast.LENGTH_SHORT).show();
                             }
                         });
                 //Creating dialog box
                 AlertDialog alert = builder.create();
-                //Setting the title manually
-                alert.setTitle("AlertDialogExample");
                 alert.show();
                 break;
         }

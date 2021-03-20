@@ -10,25 +10,25 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.NASAImageOfTheDay"
-        >
-        <activity android:name=".ImageFromDatabaseActivity"></activity>
+        android:theme="@style/Theme.NASAImageOfTheDay">
+        <activity android:name=".BaseActivity"></activity>
+        <activity android:name=".ImageFromDatabaseActivity">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar“
+        </activity>
         <activity android:name=".ImageListActivity">
-
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar“
         </activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ImageFromNASAActivity">
-
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar“
         </activity>
         <activity android:name=".MainActivity">
             android:theme="@style/Theme.AppCompat.Light.NoActionBar“
-
         </activity>
     </application>
 

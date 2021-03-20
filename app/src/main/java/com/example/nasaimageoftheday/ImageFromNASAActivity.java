@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -39,7 +40,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class ImageFromNASAActivity extends AppCompatActivity implements View.OnClickListener {
+public class ImageFromNASAActivity extends BaseActivity implements View.OnClickListener {
 
     TextView urlTextView;
     TextView imageUrlTextView;
@@ -64,6 +65,10 @@ public class ImageFromNASAActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_from_nasa);
+
+        // Set the toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Set the visibility of the progress bar
         ProgressBar progressBar = findViewById(R.id.progress_bar);
@@ -96,6 +101,18 @@ public class ImageFromNASAActivity extends AppCompatActivity implements View.OnC
 
         MyHTTPRequest req = new MyHTTPRequest();
         req.execute(url);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        menu.removeItem(R.id.login);
+        menu.removeItem(R.id.image_list);
+        return true;    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

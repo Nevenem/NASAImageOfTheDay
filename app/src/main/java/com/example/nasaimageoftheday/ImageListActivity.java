@@ -1,7 +1,9 @@
 package com.example.nasaimageoftheday;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,6 +13,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -23,7 +27,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-public class ImageListActivity extends AppCompatActivity {
+public class ImageListActivity extends BaseActivity {
 
     private ArrayList<NASAImage> images = new ArrayList<>();
     SQLiteDatabase database;
@@ -33,6 +37,10 @@ public class ImageListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_list);
+
+        // Set the toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Connect to the database
         MySQLiteHelper mySQLiteHelper = new MySQLiteHelper(this);
@@ -47,6 +55,16 @@ public class ImageListActivity extends AppCompatActivity {
 
         // Update the adapter
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadDataFromDatabase() {

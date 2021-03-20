@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NASAImageOfTheDay</string>
+    <string name="app_name">NASA Image Of The Day</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="pick_date">Pick a date</string>
     <string name="get_image">get NASA image</string>
@@ -21,5 +21,5 @@
     <string name="login">Login</string>
     <string name="dialog_message">You can pick a date and get the image of the day from NASA.\nYou can save the image by clicking SAVE.\nYou can look at your saved images by going to FAVORITES.</string>
     <string name="dialog_title">Instructions</string>
-    <string name="help">help</string>
+    <string name="help">Help</string>
 </resources>

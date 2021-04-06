@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -106,7 +107,7 @@ public class ImageListActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Delete the image from the ListView
-        if (requestCode == 1) {
+        if (resultCode == Activity.RESULT_OK) {
             Log.i("RESULT CODE", "result code is ok");
             deleteImageFromArrayList(currentImage);
             adapter.notifyDataSetChanged();

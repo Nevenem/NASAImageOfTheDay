@@ -24,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
@@ -54,6 +56,7 @@ public class ImageFromNASAActivity extends BaseActivity implements View.OnClickL
     private String url;
     private String imageDescription;
     private String imageUrlString;
+    private String mediaType;
     private URL imageUrl;
     private String imageFileName;
     private Bitmap bmp;
@@ -85,6 +88,7 @@ public class ImageFromNASAActivity extends BaseActivity implements View.OnClickL
 
         //Get the imageView
         imageView = findViewById(R.id.image);
+
         // Get the imageDescription TextView
         imageDescriptionTextView = findViewById(R.id.image_description);
 
@@ -108,7 +112,8 @@ public class ImageFromNASAActivity extends BaseActivity implements View.OnClickL
         super.onCreateOptionsMenu(menu);
         menu.removeItem(R.id.login);
         menu.removeItem(R.id.image_list);
-        return true;    }
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -129,9 +134,7 @@ public class ImageFromNASAActivity extends BaseActivity implements View.OnClickL
 
             Intent intent = new Intent(getBaseContext(), ImageListActivity.class);
             startActivity(intent);
-
         }
-
     }
 
     private void downloadImage() {
@@ -164,7 +167,7 @@ public class ImageFromNASAActivity extends BaseActivity implements View.OnClickL
 
     }
 
-    private class MyHTTPRequest extends AsyncTask<String,Integer,String> {
+    private class MyHTTPRequest extends AsyncTask<String, Integer, String> {
 
         @Override
         protected String doInBackground(String... strings) {
@@ -179,10 +182,10 @@ public class ImageFromNASAActivity extends BaseActivity implements View.OnClickL
 
 
                 // Update progress bar
-                for (int i = 0; i < 100; i++) {
+                for (int i = 0; i < 50; i++) {
                     publishProgress(i);
                 }
-                          // wait for data
+                // wait for data
                 InputStream response = urlConnection.getInputStream();
 
                 //JSON reading
@@ -190,7 +193,7 @@ public class ImageFromNASAActivity extends BaseActivity implements View.OnClickL
                 StringBuilder sb = new StringBuilder();
 
                 String line = null;
-                while ((line = reader.readLine()) != null ) {
+                while ((line = reader.readLine()) != null) {
                     sb.append(line + "\n");
                 }
                 String result = sb.toString();
@@ -200,11 +203,16 @@ public class ImageFromNASAActivity extends BaseActivity implements View.OnClickL
 
                 // get the description of the image
                 imageDescription = imageDetailsJSON.getString("explanation");
+                publishProgress(50);
+
+                // get media type
+                mediaType = imageDetailsJSON.getString("media_type");
 
                 // get the image url
                 imageUrlString = imageDetailsJSON.getString("url");
                 imageUrl = new URL(imageUrlString);
-                    bmp = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
+                bmp = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
+                publishProgress(75);
 
                 // get the image date
                 imageDate = imageDetailsJSON.getString("date");
@@ -221,10 +229,10 @@ public class ImageFromNASAActivity extends BaseActivity implements View.OnClickL
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
 
-               ProgressBar progressBar = findViewById(R.id.progress_bar);
-                progressBar.setVisibility(ProgressBar.VISIBLE);
-                progressBar.setProgress(values[0]);
-            }
+            ProgressBar progressBar = findViewById(R.id.progress_bar);
+            progressBar.setVisibility(ProgressBar.VISIBLE);
+            progressBar.setProgress(values[0]);
+        }
 
 
         @Override
@@ -250,9 +258,6 @@ public class ImageFromNASAActivity extends BaseActivity implements View.OnClickL
                     startActivity(intent);
                 }
             });
-
         }
     }
-
-
 }

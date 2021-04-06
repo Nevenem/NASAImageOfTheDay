@@ -117,7 +117,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
             datePickerDialog.show();
             imageUrl = "https://api.nasa.gov/planetary/apod?api_key=DgPLcIlnmN0Cwrzcg3e9NraFaYLIDI68Ysc6Zh3d&date=" + mYear + "-" + mMonth + "-" + mDay;
-            Log.i("Date", imageUrl);
 
         } else if (v == btnGetNASAImage) {
 

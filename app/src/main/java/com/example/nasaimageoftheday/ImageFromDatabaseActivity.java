@@ -125,10 +125,6 @@ public class ImageFromDatabaseActivity extends BaseActivity implements View.OnCl
         }
 
         finish();
-
-
-
-
     }
 
     private void deleteImage() {

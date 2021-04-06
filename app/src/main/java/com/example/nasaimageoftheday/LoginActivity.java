@@ -1,7 +1,6 @@
 package com.example.nasaimageoftheday;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
@@ -10,15 +9,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.google.android.material.button.MaterialButton;
 
 public class LoginActivity extends BaseActivity{
 
-    TextView nameTextView;
-    TextView passwordTextView;
+    EditText name;
+    EditText password;
     MaterialButton LoginButton;
     SharedPreferences prefs = null;
 
@@ -32,8 +30,8 @@ public class LoginActivity extends BaseActivity{
         setSupportActionBar(toolbar);
 
         // Get the nameTextView and the passwordTextView
-        nameTextView = findViewById(R.id.editName);
-        passwordTextView = findViewById(R.id.editPassword);
+        name = findViewById(R.id.editName);
+        password = findViewById(R.id.editPassword);
 
         // Get the Login button
         MaterialButton loginButton = findViewById(R.id.login_button);
@@ -44,23 +42,23 @@ public class LoginActivity extends BaseActivity{
         String savedName = prefs.getString("Name", "");
 
         if (prefs.contains("Name")) {
-            nameTextView.setText(savedName);
+            name.setText(savedName);
         }
         if (prefs.contains("Password")) {
-            passwordTextView.setText(prefs.getString("Password", ""));
+            password.setText(prefs.getString("Password", ""));
 
         }
 
-        nameTextView.setText(savedName);
+        name.setText(savedName);
 
         String savedPass = prefs.getString("Password", "");
-        passwordTextView.setText(savedPass);
+        password.setText(savedPass);
 
         // Set the listener
         loginButton.setOnClickListener(v -> {
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("Name", nameTextView.getText().toString());
-            editor.putString("Password", passwordTextView.getText().toString());
+            editor.putString("Name", name.getText().toString());
+            editor.putString("Password", password.getText().toString());
             editor.commit();
 
             Intent intent = new Intent(getBaseContext(), MainActivity.class);

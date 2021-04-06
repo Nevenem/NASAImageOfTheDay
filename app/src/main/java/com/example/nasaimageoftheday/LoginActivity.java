@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +20,7 @@ public class LoginActivity extends BaseActivity{
     TextView nameTextView;
     TextView passwordTextView;
     MaterialButton LoginButton;
+    SharedPreferences prefs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +32,37 @@ public class LoginActivity extends BaseActivity{
         setSupportActionBar(toolbar);
 
         // Get the nameTextView and the passwordTextView
-        nameTextView = findViewById(R.id.name);
-        passwordTextView = findViewById(R.id.password);
+        nameTextView = findViewById(R.id.editName);
+        passwordTextView = findViewById(R.id.editPassword);
 
         // Get the Login button
         MaterialButton loginButton = findViewById(R.id.login_button);
 
+        // Prepopulate the fields with values from shared preferences
+        prefs = getSharedPreferences("mypreference",
+                Context.MODE_PRIVATE);
+        String savedName = prefs.getString("Name", "");
+
+        if (prefs.contains("Name")) {
+            nameTextView.setText(savedName);
+        }
+        if (prefs.contains("Password")) {
+            passwordTextView.setText(prefs.getString("Password", ""));
+
+        }
+
+        nameTextView.setText(savedName);
+
+        String savedPass = prefs.getString("Password", "");
+        passwordTextView.setText(savedPass);
+
         // Set the listener
         loginButton.setOnClickListener(v -> {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("Name", nameTextView.getText().toString());
+            editor.putString("Password", passwordTextView.getText().toString());
+            editor.commit();
+
             Intent intent = new Intent(getBaseContext(), MainActivity.class);
             startActivity(intent);
         });

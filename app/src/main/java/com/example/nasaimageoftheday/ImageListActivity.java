@@ -107,6 +107,7 @@ public class ImageListActivity extends BaseActivity {
 
         // Delete the image from the ListView
         if (requestCode == 1) {
+            Log.i("RESULT CODE", "result code is ok");
             deleteImageFromArrayList(currentImage);
             adapter.notifyDataSetChanged();
 

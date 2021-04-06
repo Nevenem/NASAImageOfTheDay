@@ -109,18 +109,25 @@ public class ImageFromDatabaseActivity extends BaseActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
+        // Return the result to the calling activity
+        Intent returnIntent = new Intent(getBaseContext(), ImageListActivity.class);
         if (v.getId() == R.id.remove_from_favorites) {
 
+            Log.i("delete", "this button pressed ");
             // delete the image
             deleteImage();
             deleteFile(imageFileName);
+            returnIntent.putExtra("DELETED_IMAGE", imageFileName);
+            setResult(RESULT_OK, returnIntent);
+        }   else if (v.getId() == R.id.go_to_list) {
+            setResult(RESULT_CANCELED, returnIntent);
+            Log.i("show", "this button pressed");
         }
 
-        // Return the result to the calling activity
-        Intent returnIntent = new Intent(getBaseContext(), ImageListActivity.class);
-        returnIntent.putExtra("DELETED_IMAGE", imageFileName);
-        setResult(RESULT_OK, returnIntent);
         finish();
+
+
+
 
     }
 
